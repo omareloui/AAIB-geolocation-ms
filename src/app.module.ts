@@ -1,9 +1,11 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import config from './config/config';
 import { GlobalModule } from './global.module';
 import { LoggingMiddlewareService } from './middlewares/logging-middleware.service';
+import { MainModule } from './modules/main/main.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { FilterModule } from './modules/filter/filter.module';
 
 @Module({
   imports: [
@@ -12,14 +14,10 @@ import { LoggingMiddlewareService } from './middlewares/logging-middleware.servi
       cache: true,
       load: [config],
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get('database').url,
-      }),
-      inject: [ConfigService],
-    }),
     GlobalModule,
+    MainModule,
+    DatabaseModule,
+    FilterModule,
   ],
   controllers: [],
   providers: [],

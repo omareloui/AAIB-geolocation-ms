@@ -21,6 +21,9 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/ban-ts-comment': 'warn',
+    'prettier/prettier': ['warn', { endOfLine: 'auto' }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
 };

@@ -24,6 +24,6 @@ async function bootstrap() {
     process.exit(1);
   });
 
-  await app.listen(config.get('server.port'));
+  await app.listen(config.get('server.port') || 3000);
 }
 bootstrap();

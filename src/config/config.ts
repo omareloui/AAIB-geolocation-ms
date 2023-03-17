@@ -1,7 +1,9 @@
+import { join } from 'node:path';
+
 export default () => ({
   environment: process.env.NODE_ENV,
   database: {
-    url: process.env.DB_URL,
+    url: join(process.env.PWD!, process.env.DB_URL || './db/db.json'),
   },
   server: {
     port: process.env.PORT,

@@ -12,19 +12,22 @@ export default class RabbitMQClient {
     private config: ConfigService,
     private logger: CustomWinstonLogger,
   ) {}
+
   private eventEmitter: EventEmitter = new EventEmitter();
 
-  private producer: Producer;
-  private consumer: Consumer;
+  private producer!: Producer;
+  private consumer!: Consumer;
 
-  private connection: Connection;
-  private producerChannel: Channel;
-  private consumerChannel: Channel;
+  private connection!: Connection;
+  private producerChannel!: Channel;
+  private consumerChannel!: Channel;
 
   async initialize() {
     try {
       //Connect to rabbitMQ
-      this.connection = await connect(this.config.get('rabbitMQ.host'));
+      this.connection = await connect(
+        this.config.getOrThrow<string>('rabbitMQ.host'),
+      );
       //Create producer and consumer channels
       await this.createChannels();
 
@@ -37,7 +40,9 @@ export default class RabbitMQClient {
       );
       const { queue: requestQueueName } =
         await this.consumerChannel.assertQueue(
-          this.config.get('rabbitMQ.queues.paymentsRequestQueue'),
+          this.config.getOrThrow<string>(
+            'rabbitMQ.queues.paymentsRequestQueue',
+          ),
           {
             durable: true,
           },

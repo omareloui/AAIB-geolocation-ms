@@ -15,7 +15,7 @@ export default class Consumer {
       this.replyQueue,
       (message) => {
         this.eventEmitter.emit(
-          message.properties.correlationId.toString(),
+          message?.properties.correlationId.toString(),
           message,
         );
       },

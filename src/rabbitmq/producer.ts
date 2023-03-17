@@ -12,7 +12,7 @@ export default class Producer {
     private replyQueue: string,
     private config: ConfigService,
   ) {
-    this.timeout = this.config.get('server.timeout');
+    this.timeout = this.config.getOrThrow<number>('server.timeout');
   }
 
   async publishMessage(
@@ -43,7 +43,8 @@ export default class Producer {
               if (!reply.error) {
                 resolve(reply);
               } else throw reply;
-            } catch (e) {
+            } catch (err) {
+              const e = err as Record<string, string> & { statusCode: number };
               reject(new HttpException(e, e.statusCode || 500));
             }
           });

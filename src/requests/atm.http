@@ -1,0 +1,40 @@
+GET http://localhost:3000/?lang=ar
+
+###
+
+GET http://localhost:3000/?name=October&function=Cash%20Dispenser&type=payroll
+
+###
+
+GET http://localhost:3000/?any=October
+
+###
+
+GET http://localhost:3000/214
+
+###
+
+DELETE http://localhost:3000/951
+
+###
+
+# WIP:
+POST http://localhost:3000
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+PUT http://localhost:3000/214
+Content-Type: application/json
+
+{
+  "name": {
+    "en": "Some new text and this is newer!",
+    "ar": "This is a very Arabic text"
+  },
+  "functionality": ["Cash Dispenser"]
+}
