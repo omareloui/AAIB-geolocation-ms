@@ -1,0 +1,7 @@
+# Get nearest with atm id
+GET http://localhost:3000/nearest/214
+
+###
+
+# Get nearest abstract location (doesn't have to be an atm location)
+GET http://localhost:3000/nearest?long=31.140855486405&lat=29.9758463498444&range=10

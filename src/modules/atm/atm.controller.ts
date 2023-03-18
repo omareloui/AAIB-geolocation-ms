@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Body,
   UsePipes,
+  Query,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { FilterService } from '../filter/filter.service';
@@ -42,9 +43,27 @@ export class AtmController {
     });
   }
 
+  @Get(':id/nearest')
+  getNearest(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) id: number,
+    @Query('range') range: string,
+  ) {
+    let finalRange = 5;
+    const parsedRange = parseInt(range, 10);
+
+    if (parsedRange && !Number.isNaN(parsedRange)) finalRange = parsedRange;
+
+    return this.atmService.getNearest(id, finalRange, {
+      headerLang: this.getLanguageHeader(req),
+    });
+  }
+
   @Delete(':id')
   deleteAtm(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
-    return this.atmService.deleteById(id);
+    return this.atmService.deleteById(id, {
+      headerLang: this.getLanguageHeader(req),
+    });
   }
 
   @Post()

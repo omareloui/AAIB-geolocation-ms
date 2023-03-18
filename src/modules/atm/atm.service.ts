@@ -4,13 +4,17 @@ import { Atm, I18NObject, Language, ProvidedAtm } from '../../types';
 import { getLanguage } from '../../utils/language';
 import { DatabaseService } from '../database/database.service';
 import { FilterOptions } from '../filter/filter.service';
+import { NearestService } from '../nearest/nearest.service';
 import { CreateAtmDto, UpdateAtmDto } from './dto/atm.dto';
 
 type ResultOptions = { headerLang?: string | undefined };
 
 @Injectable()
 export class AtmService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private nearestService: NearestService,
+  ) {}
 
   find(filterOptions: FilterOptions, options: ResultOptions = {}) {
     const lang: Language =
@@ -33,6 +37,16 @@ export class AtmService {
     return this.resolveLanguage(
       atm,
       this.parseLanguageFromHeaders(options.headerLang),
+    );
+  }
+
+  getNearest(id: number, range = 5, options: ResultOptions) {
+    const nearest = this.nearestService.getNearestByAtmId(id, range);
+    return nearest.map((x) =>
+      this.resolveLanguage(
+        x,
+        this.parseLanguageFromHeaders(options.headerLang),
+      ),
     );
   }
 

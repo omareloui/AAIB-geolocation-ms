@@ -1,24 +1,40 @@
+# Get atm with specified language
 GET http://localhost:3000/atm?lang=ar
 
 ###
 
+# Filtering atms
 GET http://localhost:3000/atm?name=October&function=Cash%20Dispenser&type=payroll
 
 ###
 
+# Filter with "any" field
 GET http://localhost:3000/atm?any=October
 
 ###
 
+# Get atm with id
 GET http://localhost:3000/atm/214
 
 ###
 
+# Get nearest atms (with range 5 as default)
+GET http://localhost:3000/atm/214/nearest
+
+###
+
+# Get nearest with defined range
+GET http://localhost:3000/atm/214/nearest?range=10
+
+###
+
+# Delete atm with id
 DELETE http://localhost:3000/atm/951
 
 ###
 
-# WIP:
+# Create atm
+# Needs testing:
 POST http://localhost:3000/atm
 Content-Type: application/json
 
@@ -26,6 +42,7 @@ Content-Type: application/json
 
 ###
 
+# Update atm with id
 PUT http://localhost:3000/atm/214
 Content-Type: application/json
 
