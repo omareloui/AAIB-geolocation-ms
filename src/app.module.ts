@@ -3,9 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import config from './config/config';
 import { GlobalModule } from './global.module';
 import { LoggingMiddlewareService } from './middlewares/logging-middleware.service';
-import { MainModule } from './modules/main/main.module';
+import { AtmModule } from './modules/atm/atm.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { FilterModule } from './modules/filter/filter.module';
+import { NearestModule } from './modules/nearest/nearest.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { FilterModule } from './modules/filter/filter.module';
       load: [config],
     }),
     GlobalModule,
-    MainModule,
+    AtmModule,
     DatabaseModule,
     FilterModule,
+    NearestModule,
   ],
   controllers: [],
   providers: [],

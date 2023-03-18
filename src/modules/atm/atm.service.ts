@@ -9,7 +9,7 @@ import { CreateAtmDto, UpdateAtmDto } from './dto/atm.dto';
 type ResultOptions = { headerLang?: string | undefined };
 
 @Injectable()
-export class MainService {
+export class AtmService {
   constructor(private databaseService: DatabaseService) {}
 
   find(filterOptions: FilterOptions, options: ResultOptions = {}) {

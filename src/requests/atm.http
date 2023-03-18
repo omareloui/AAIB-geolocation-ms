@@ -1,34 +1,32 @@
-GET http://localhost:3000/?lang=ar
+GET http://localhost:3000/atm?lang=ar
 
 ###
 
-GET http://localhost:3000/?name=October&function=Cash%20Dispenser&type=payroll
+GET http://localhost:3000/atm?name=October&function=Cash%20Dispenser&type=payroll
 
 ###
 
-GET http://localhost:3000/?any=October
+GET http://localhost:3000/atm?any=October
 
 ###
 
-GET http://localhost:3000/214
+GET http://localhost:3000/atm/214
 
 ###
 
-DELETE http://localhost:3000/951
+DELETE http://localhost:3000/atm/951
 
 ###
 
 # WIP:
-POST http://localhost:3000
+POST http://localhost:3000/atm
 Content-Type: application/json
 
-{
-
-}
+{}
 
 ###
 
-PUT http://localhost:3000/214
+PUT http://localhost:3000/atm/214
 Content-Type: application/json
 
 {

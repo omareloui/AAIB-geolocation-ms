@@ -25,5 +25,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'warn',
     'prettier/prettier': ['warn', { endOfLine: 'auto' }],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    '@typescript-eslint/no-explicit-any': ['warn'],
   },
 };

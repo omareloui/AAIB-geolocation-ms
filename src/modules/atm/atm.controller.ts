@@ -19,38 +19,38 @@ import {
   type UpdateAtmDto,
 } from './dto/atm.dto';
 import { ZodBodyValidationPipe } from '../../pipes/validation.pipe';
-import { MainService } from './main.service';
+import { AtmService } from './atm.service';
 
-@Controller()
-export class MainController {
+@Controller('atm')
+export class AtmController {
   constructor(
-    private mainService: MainService,
+    private atmService: AtmService,
     private filterService: FilterService,
   ) {}
 
   @Get()
   get(@Req() req: Request) {
-    return this.mainService.find(this.filterService.parseOptions(req.query), {
+    return this.atmService.find(this.filterService.parseOptions(req.query), {
       headerLang: this.getLanguageHeader(req),
     });
   }
 
   @Get(':id')
   getById(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
-    return this.mainService.findById(id, {
+    return this.atmService.findById(id, {
       headerLang: this.getLanguageHeader(req),
     });
   }
 
   @Delete(':id')
   deleteAtm(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
-    return this.mainService.deleteById(id);
+    return this.atmService.deleteById(id);
   }
 
   @Post()
   @UsePipes(new ZodBodyValidationPipe(CreateAtmDtoSchema))
   create(@Req() req: Request, @Body() createAtmDto: CreateAtmDto) {
-    return this.mainService.create(createAtmDto, {
+    return this.atmService.create(createAtmDto, {
       headerLang: this.getLanguageHeader(req),
     });
   }
@@ -62,7 +62,7 @@ export class MainController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateAtmDto: UpdateAtmDto,
   ) {
-    return this.mainService.update(id, updateAtmDto, {
+    return this.atmService.update(id, updateAtmDto, {
       headerLang: this.getLanguageHeader(req),
     });
   }
