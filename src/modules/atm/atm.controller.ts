@@ -21,7 +21,7 @@ import {
 } from './dto/atm.dto';
 import { ZodBodyValidationPipe } from '../../pipes/validation.pipe';
 import { AtmService } from './atm.service';
-import { getLanguageHeader } from 'src/utils/language';
+import { getLanguageHeader } from '../../utils/language';
 
 @Controller('atm')
 export class AtmController {

@@ -35,6 +35,7 @@ DELETE http://localhost:3000/atm/180000
 
 # Create atm
 GET http://localhost:3000/atm/18000
+DELETE http://localhost:3000/atm/18000
 
 DELETE http://localhost:3000/atm/18000
 

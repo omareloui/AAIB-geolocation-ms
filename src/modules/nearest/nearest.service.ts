@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { AtmsWDistance } from 'src/types';
+import { AtmsWDistance } from '../../types';
 import { DatabaseService } from '../database/database.service';
 
 type Location = { googleLatitude: number; googleLongitude: number };

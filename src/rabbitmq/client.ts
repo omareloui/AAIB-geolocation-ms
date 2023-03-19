@@ -4,7 +4,7 @@ import Producer from './producer';
 import { Connection, connect, Channel } from 'amqplib';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CustomWinstonLogger } from 'src/helpers/logger.service';
+import { CustomWinstonLogger } from '../helpers/logger.service';
 
 @Injectable()
 export default class RabbitMQClient {

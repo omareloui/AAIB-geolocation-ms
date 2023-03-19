@@ -1,5 +1,5 @@
 import { HttpException } from '@nestjs/common';
-import errors from 'src/config/errors';
+import errors from '../config/errors';
 
 export default (timeoutMs: number, promise: () => Promise<any>) => {
   let timeoutHandle: NodeJS.Timeout;

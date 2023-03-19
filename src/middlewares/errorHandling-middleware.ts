@@ -5,7 +5,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { CustomWinstonLogger } from 'src/helpers/logger.service';
+import { CustomWinstonLogger } from '../helpers/logger.service';
 
 @Catch(HttpException)
 //Intercept errors and log them

@@ -8,12 +8,12 @@ import {
 } from '@nestjs/common';
 import { NearestService } from './nearest.service';
 
-import { ProvidedAtm, ProvidedAtmsWDistance } from 'src/types';
+import { ProvidedAtm, ProvidedAtmsWDistance } from '../../types';
 import { AtmService } from '../atm/atm.service';
 import {
   getLanguageHeader,
   resolveLanguageFormHeaderValue,
-} from 'src/utils/language';
+} from '../../utils/language';
 import { Request } from 'express';
 
 @Controller('nearest')
