@@ -1,7 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AVAILABLE_LANGUAGES } from '../../config/constants';
 import { Atm, I18NObject, Language, ProvidedAtm } from '../../types';
-import { getLanguage } from '../../utils/language';
+import {
+  parseLanguageFromHeaders,
+  resolveLanguage,
+  resolveLanguageFormHeaderValue,
+} from '../../utils/language';
 import { DatabaseService } from '../database/database.service';
 import { FilterOptions } from '../filter/filter.service';
 import { NearestService } from '../nearest/nearest.service';
@@ -16,14 +20,13 @@ export class AtmService {
     private nearestService: NearestService,
   ) {}
 
-  find(filterOptions: FilterOptions, options: ResultOptions = {}) {
+  find(filterOptions: FilterOptions = {}, options: ResultOptions = {}) {
     const lang: Language =
-      filterOptions.language ||
-      this.parseLanguageFromHeaders(options.headerLang);
+      filterOptions.language || parseLanguageFromHeaders(options.headerLang);
 
     const filterDB = this.databaseService.find(filterOptions);
 
-    return filterDB.map((x) => this.resolveLanguage(x, lang));
+    return filterDB.map((x) => resolveLanguage(x, lang));
   }
 
   findById(id: number, options: ResultOptions = {}) {
@@ -34,19 +37,13 @@ export class AtmService {
         HttpStatus.NOT_FOUND,
       );
 
-    return this.resolveLanguage(
-      atm,
-      this.parseLanguageFromHeaders(options.headerLang),
-    );
+    return resolveLanguageFormHeaderValue(atm, options.headerLang);
   }
 
   getNearest(id: number, range = 5, options: ResultOptions) {
     const nearest = this.nearestService.getNearestByAtmId(id, range);
     return nearest.map((x) =>
-      this.resolveLanguage(
-        x,
-        this.parseLanguageFromHeaders(options.headerLang),
-      ),
+      resolveLanguageFormHeaderValue(x, options.headerLang),
     );
   }
 
@@ -60,9 +57,10 @@ export class AtmService {
 
     return {
       isDeleted: res.isDeleted,
-      deletedItem: this.resolveLanguage(
+
+      deletedItem: resolveLanguageFormHeaderValue(
         res.deletedItem,
-        this.parseLanguageFromHeaders(options.headerLang),
+        options.headerLang,
       ),
     };
   }
@@ -113,9 +111,9 @@ export class AtmService {
 
     await this.databaseService.updateEntry(id, clonedAtm);
 
-    return this.resolveLanguage(
+    return resolveLanguageFormHeaderValue(
       this.databaseService.findById(id)!,
-      this.parseLanguageFromHeaders(options.headerLang),
+      options.headerLang,
     );
   }
 
@@ -128,22 +126,6 @@ export class AtmService {
           : createAtmDto.functionality,
     };
     const inserted = await this.databaseService.insertEntry(newAtm);
-    return this.resolveLanguage(
-      inserted,
-      this.parseLanguageFromHeaders(options.headerLang),
-    );
-  }
-
-  private parseLanguageFromHeaders(headerValue: string | undefined): Language {
-    return getLanguage(headerValue?.toLowerCase() || 'en')!;
-  }
-
-  private resolveLanguage(atm: Atm, lang: Language): ProvidedAtm {
-    return {
-      ...atm,
-      name: atm.name[lang],
-      location: atm.location[lang],
-      governorateName: atm.governorateName[lang],
-    };
+    return resolveLanguageFormHeaderValue(inserted, options.headerLang);
   }
 }

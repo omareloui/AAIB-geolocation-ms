@@ -42,5 +42,10 @@ export type ProvidedAtms = {
   [language in Language]: ProvidedAtm[];
 };
 
-export type AtmWDistance = Atm & { distance: number };
+type Distance = { distance: number };
+
+export type AtmWDistance = Atm & Distance;
 export type AtmsWDistance = AtmWDistance[];
+
+export type ProvidedAtmWDistance = ProvidedAtm & Distance;
+export type ProvidedAtmsWDistance = ProvidedAtmWDistance[];

@@ -21,6 +21,7 @@ import {
 } from './dto/atm.dto';
 import { ZodBodyValidationPipe } from '../../pipes/validation.pipe';
 import { AtmService } from './atm.service';
+import { getLanguageHeader } from 'src/utils/language';
 
 @Controller('atm')
 export class AtmController {
@@ -32,14 +33,14 @@ export class AtmController {
   @Get()
   get(@Req() req: Request) {
     return this.atmService.find(this.filterService.parseOptions(req.query), {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
   }
 
   @Get(':id')
   getById(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
     return this.atmService.findById(id, {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
   }
 
@@ -55,14 +56,14 @@ export class AtmController {
     if (parsedRange && !Number.isNaN(parsedRange)) finalRange = parsedRange;
 
     return this.atmService.getNearest(id, finalRange, {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
   }
 
   @Delete(':id')
   deleteAtm(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
     return this.atmService.deleteById(id, {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
   }
 
@@ -70,7 +71,7 @@ export class AtmController {
   @UsePipes(new ZodBodyValidationPipe(CreateAtmDtoSchema))
   create(@Req() req: Request, @Body() createAtmDto: CreateAtmDto) {
     return this.atmService.create(createAtmDto, {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
   }
 
@@ -82,11 +83,7 @@ export class AtmController {
     @Body() updateAtmDto: UpdateAtmDto,
   ) {
     return this.atmService.update(id, updateAtmDto, {
-      headerLang: this.getLanguageHeader(req),
+      headerLang: getLanguageHeader(req),
     });
-  }
-
-  private getLanguageHeader(req: Request) {
-    return req.headers['accept-language'];
   }
 }

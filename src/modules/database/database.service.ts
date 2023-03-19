@@ -22,7 +22,6 @@ type UpdateOptions = { save: boolean };
 export class DatabaseService {
   private url: string;
   private db: Atms;
-  private lastSr: number;
 
   constructor(private config: ConfigService) {
     this.url = this.config.getOrThrow<string>('database.url');
@@ -36,11 +35,7 @@ export class DatabaseService {
       );
 
     this.db = JSON.parse(file);
-    this.lastSr = -Infinity;
 
-    this.db.forEach((x) => {
-      if (x.sr > this.lastSr) this.lastSr = x.sr;
-    });
   }
 
   getAll() {
@@ -130,12 +125,9 @@ export class DatabaseService {
     atm: Omit<Atm, 'sr'>,
     options: UpdateOptions = { save: true },
   ): Promise<Atm> {
-    const newSr = this.lastSr + 1;
-    const newAtm: Atm = { ...atm, sr: newSr };
-    this.db.push(newAtm);
-    this.lastSr = newSr;
+    this.db.push(atm);
     if (options.save) await this.save();
-    return newAtm;
+    return atm;
   }
 
   async deleteEntryById(
