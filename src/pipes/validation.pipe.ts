@@ -5,7 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import errors from '../config/errors';
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
 
 @Injectable()
 export class JoiValidationPipe implements PipeTransform {
@@ -36,8 +36,12 @@ export class ZodBodyValidationPipe implements PipeTransform {
     try {
       const parsed = this.schema.parse(value);
       return parsed;
-    } catch (e) {
-      throw new BadRequestException(errors.validationFailed);
+    } catch (err) {
+      const e = err as ZodError;
+      throw new BadRequestException({
+        ...errors.validationFailed,
+        errors: e.errors,
+      });
     }
   }
 }

@@ -29,16 +29,38 @@ GET http://localhost:3000/atm/214/nearest?range=10
 ###
 
 # Delete atm with id
-DELETE http://localhost:3000/atm/951
+DELETE http://localhost:3000/atm/180000
 
 ###
 
 # Create atm
-# Needs testing:
+GET http://localhost:3000/atm/18000
+
+DELETE http://localhost:3000/atm/18000
+
 POST http://localhost:3000/atm
 Content-Type: application/json
 
-{}
+{
+  "sr": 10000,
+  "atmId": 18000,
+  "name": {
+    "en": "some name in English",
+    "ar": "some name in arabic"
+  },
+  "location": {
+    "en": "some location in English",
+    "ar": "some location in arabic"
+  },
+  "governorateName": {
+    "en": "some gov in English",
+    "ar": "some gov in arabic"
+  },
+  "googleLatitude": 1.00000000,
+  "googleLongitude": 1.00000000,
+  "type": "Branch",
+  "functionality": "Full Function"
+}
 
 ###
 

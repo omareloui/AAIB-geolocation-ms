@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { AVAILABLE_LANGUAGES } from '../../config/constants';
 import { Atm, I18NObject, Language, ProvidedAtm } from '../../types';
 import {
@@ -125,6 +130,18 @@ export class AtmService {
           ? [createAtmDto.functionality]
           : createAtmDto.functionality,
     };
+    const alreadyExistsSr = this.find({ sr: newAtm.sr });
+    if (alreadyExistsSr.length > 0)
+      throw new HttpException(
+        { message: 'This sr is already in use' },
+        HttpStatus.CONFLICT,
+      );
+    const alreadyExistsAtmId = this.find({ atmId: newAtm.atmId });
+    if (alreadyExistsAtmId.length > 0)
+      throw new HttpException(
+        { message: 'This atmId is already in use' },
+        HttpStatus.CONFLICT,
+      );
     const inserted = await this.databaseService.insertEntry(newAtm);
     return resolveLanguageFormHeaderValue(inserted, options.headerLang);
   }
