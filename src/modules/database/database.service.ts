@@ -1,5 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -24,7 +25,8 @@ export class DatabaseService {
   private db: Atms;
 
   constructor(private config: ConfigService) {
-    this.url = this.config.getOrThrow<string>('database.url');
+    // this.url = this.config.getOrThrow<string>('database.url');
+    this.url = join(__dirname, '../../../db/db.json');
     const file = readFileSync(this.url, {
       encoding: 'utf-8',
     });

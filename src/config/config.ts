@@ -3,7 +3,7 @@ import { join } from 'node:path';
 export default () => ({
   environment: process.env.NODE_ENV,
   database: {
-    url: join(__dirname, '..', '..', process.env.DB_URL || './db/db.json'),
+    url: join(__dirname, '../../../db/db.json'),
   },
   server: {
     port: process.env.PORT,
