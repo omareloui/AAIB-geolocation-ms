@@ -28,6 +28,7 @@ export const UpdateAtmDtoSchema = z.object({
 export type UpdateAtmDto = z.infer<typeof UpdateAtmDtoSchema>;
 
 export const CreateAtmDtoSchema = z.object({
+  sr: z.number(),
   atmId: z.number(),
 
   name: RequiredLanguateObject,

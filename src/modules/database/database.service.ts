@@ -35,7 +35,6 @@ export class DatabaseService {
       );
 
     this.db = JSON.parse(file);
-
   }
 
   getAll() {
@@ -122,7 +121,7 @@ export class DatabaseService {
   }
 
   async insertEntry(
-    atm: Omit<Atm, 'sr'>,
+    atm: Atm,
     options: UpdateOptions = { save: true },
   ): Promise<Atm> {
     this.db.push(atm);

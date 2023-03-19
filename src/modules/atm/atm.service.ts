@@ -118,7 +118,7 @@ export class AtmService {
   }
 
   async create(createAtmDto: CreateAtmDto, options: ResultOptions = {}) {
-    const newAtm: Omit<Atm, 'sr'> = {
+    const newAtm = {
       ...createAtmDto,
       functionality:
         typeof createAtmDto.functionality === 'string'
