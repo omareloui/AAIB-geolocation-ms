@@ -1,6 +1,5 @@
 import { writeFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -25,18 +24,18 @@ export class DatabaseService {
   private db: Atms;
 
   constructor(private config: ConfigService) {
-    // this.url = this.config.getOrThrow<string>('database.url');
-    this.url = join(__dirname, '../../../db/db.json');
-    const file = readFileSync(this.url, {
-      encoding: 'utf-8',
-    });
+    this.url = this.config.getOrThrow('database.url');
 
-    if (!file)
-      throw new Error(
-        'Can\'t find the database file (you might need to run "npm run db:restructure")',
-      );
+    // this.setDBFromConfigUrl();
+    this.setDBFromSrc();
+  }
 
-    this.db = JSON.parse(file);
+  async setDBFromConfigUrl() {
+    this.db = (await import(this.url)) as Atms;
+  }
+
+  async setDBFromSrc() {
+    this.db = (await import('../../db/db.json')) as Atms;
   }
 
   getAll() {
@@ -146,6 +145,7 @@ export class DatabaseService {
   }
 
   save() {
+    throw new Error("Can't save rn.");
     return writeFile(this.url, JSON.stringify(this.db));
   }
 }
