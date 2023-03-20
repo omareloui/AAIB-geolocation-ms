@@ -30,11 +30,11 @@ export class DatabaseService {
     this.setDBFromSrc();
   }
 
-  async setDBFromConfigUrl() {
+  private async setDBFromConfigUrl() {
     this.db = (await import(this.url)) as Atms;
   }
 
-  async setDBFromSrc() {
+  private async setDBFromSrc() {
     this.db = (await import('../../db/db.json')) as Atms;
   }
 
