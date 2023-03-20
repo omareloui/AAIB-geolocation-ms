@@ -27,7 +27,9 @@ export class AtmService {
 
   find(filterOptions: FilterOptions = {}, options: ResultOptions = {}) {
     const lang: Language =
-      filterOptions.language || parseLanguageFromHeaders(options.headerLang);
+      !filterOptions.language || filterOptions.language === 'en'
+        ? parseLanguageFromHeaders(options.headerLang)
+        : filterOptions.language;
 
     const filterDB = this.databaseService.find(filterOptions);
 
