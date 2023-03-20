@@ -129,7 +129,7 @@ export class AtmService {
         typeof createAtmDto.functionality === 'string'
           ? [createAtmDto.functionality]
           : createAtmDto.functionality,
-    };
+    } as Atm;
     const alreadyExistsSr = this.find({ sr: newAtm.sr });
     if (alreadyExistsSr.length > 0)
       throw new HttpException(
