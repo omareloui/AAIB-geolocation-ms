@@ -40,3 +40,8 @@ You have to delete `/db/db.json` if it already exists. Then run:
 ```bash
 npm run db:restructure
 ```
+
+## Endpoints
+
+You can find all available endpoints on [`http://localhost:3000/docs`](http://localhost:3000/docs)
+assuming you're running it on port `3000`.
