@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AtmFunctionality, AtmType } from '../types';
+import { ATM_FUNCTIONALITY, ATM_TYPES } from 'src/config/constants';
 
 export class AtmApiOkResponse {
   @ApiProperty()
@@ -23,11 +24,14 @@ export class AtmApiOkResponse {
   @ApiProperty()
   googleLongitude: number;
 
-  @ApiProperty()
+  @ApiProperty({ enum: ATM_FUNCTIONALITY })
   functionality: AtmFunctionality[];
 
-  @ApiProperty()
+  @ApiProperty({ enum: ATM_TYPES })
   type: AtmType;
+
+  @ApiProperty({ nullable: true })
+  workingHour?: string | undefined;
 }
 
 export class AtmWDistanceApiOkResponse extends AtmApiOkResponse {

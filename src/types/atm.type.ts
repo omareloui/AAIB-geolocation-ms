@@ -12,7 +12,7 @@ export type Language = (typeof AVAILABLE_LANGUAGES)[number];
 
 export type I18NObject = { [lang in Language]: string };
 
-export type Atm = {
+export type Atm<T extends AtmType = AtmType> = {
   sr: number;
   atmId: number;
   name: I18NObject;
@@ -21,7 +21,8 @@ export type Atm = {
   googleLatitude: number;
   googleLongitude: number;
   functionality: AtmFunctionality[];
-  type: AtmType;
+  type: T;
+  workingHours?: T extends 'Branch' ? string : undefined;
 };
 
 export type Atms = Atm[];

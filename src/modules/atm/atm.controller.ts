@@ -3,23 +3,11 @@ import {
   Req,
   Get,
   Param,
-  Post,
-  Delete,
-  Put,
   ParseIntPipe,
-  Body,
-  UsePipes,
   Query,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { FilterService } from '../filter/filter.service';
-import {
-  CreateAtmDtoSchema,
-  UpdateAtmDtoSchema,
-  type CreateAtmDto,
-  type UpdateAtmDto,
-} from './dto/atm.dto';
-import { ZodBodyValidationPipe } from '../../pipes/validation.pipe';
 import { AtmService } from './atm.service';
 import { getLanguageHeader } from '../../utils/language';
 import {

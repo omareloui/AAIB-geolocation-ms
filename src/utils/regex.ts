@@ -1,3 +1,3 @@
-export function sanatizeForRegex(str: string): string {
+export function sanitizeForRegex(str: string): string {
   return str.replace(/[\\?+*\-.]/g, (v) => `\\${v}`);
 }

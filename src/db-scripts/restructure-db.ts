@@ -1,5 +1,5 @@
-import url from 'node:url';
-import { writeFile, readFile } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { atms } from './provided.db';
 import type { Atm, Atms, Language, ProvidedAtms } from '../types';
 import config from '../config/config';
@@ -52,19 +52,32 @@ function setLanguageSpecificFields(
   atm.governorateName[lang] = values.governorateName;
 }
 
-async function main() {
-  const content = getRestructured(atms);
-  const db = config().database.url;
-
+async function fileExists(path: string): Promise<false | [true, string]> {
   try {
-    await readFile(db);
-    console.log(
+    const content = await readFile(path, 'utf-8');
+    return [true, content];
+  } catch (e) {
+    return false;
+  }
+}
+
+export async function main(): Promise<Atms> {
+  const db = config().database.url;
+  const dbExists = await fileExists(db);
+  if (dbExists) {
+    console.error(
       '---------- The database already exists. If you want to override it you have to delete the old one first. ----------',
     );
-  } catch (e) {
-    // writeFile(db, JSON.stringify(content, null, 2));
-    writeFile(db, JSON.stringify(content));
+    return JSON.parse(dbExists[1]) as Atms;
   }
+
+  const content = getRestructured(atms);
+  try {
+    await mkdir(dirname(db));
+  } catch (e) {}
+
+  await writeFile(db, JSON.stringify(content));
+  return content;
 }
 
 if (require.main === module) main();

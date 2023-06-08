@@ -1,11 +1,10 @@
 import { writeFile } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AVAILABLE_LANGUAGES } from '../../config/constants';
 import { Atm, AtmFunctionality, Atms, AtmType, Language } from '../../types';
-import { sanatizeForRegex } from '../../utils/regex';
+import { sanitizeForRegex } from '../../utils/regex';
 import { FilterOptions } from '../filter/filter.service';
 
 type InputOption =
@@ -35,7 +34,7 @@ export class DatabaseService {
   }
 
   private async setDBFromSrc() {
-    this.db = (await import('../../db/db.json')) as Atms;
+    this.db = (await import('./db/db.json')) as Atms;
   }
 
   getAll() {
@@ -89,7 +88,7 @@ export class DatabaseService {
           return true;
 
         const regex = new RegExp(
-          sanatizeForRegex(value?.toString() || ''),
+          sanitizeForRegex(value?.toString() || ''),
           'i',
         );
         if (typeof value === 'string' && (shouldMatch as string).match(regex))
@@ -145,7 +144,7 @@ export class DatabaseService {
   }
 
   save() {
-    throw new Error("Can't save rn.");
+    throw new Error("Can't save right now.");
     return writeFile(this.url, JSON.stringify(this.db));
   }
 }
